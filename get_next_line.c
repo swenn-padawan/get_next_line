@@ -6,7 +6,7 @@
 /*   By: swenn <swenn@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 20:44:42 by swenn             #+#    #+#             */
-/*   Updated: 2024/10/21 01:18:12 by swenn            ###   ########.fr       */
+/*   Updated: 2024/10/21 01:44:30 by swenn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,11 @@ char	*get_next_line(int fd)
 	char		*str;
 
 	str = NULL;
-	bytes_read = 0;
 	while (1)
 	{
 		if (!*buffer)
 			bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read == -1)
-			break ;
-		if (bytes_read == 0)
+		if (bytes_read <= 0)
 			break;
 		backslash = ft_strchr(buffer, '\n');
 		if (!backslash)
