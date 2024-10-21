@@ -6,7 +6,7 @@
 /*   By: swenn <swenn@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 20:44:42 by swenn             #+#    #+#             */
-/*   Updated: 2024/10/21 01:44:30 by swenn            ###   ########.fr       */
+/*   Updated: 2024/10/21 08:39:43 by stetrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 		return (d);
 	if (d < s)
 	{
-		while (n--)
+		while (n-- && *d)
 			*d++ = *s++;
 	}
 	else
@@ -99,6 +99,7 @@ char	*get_next_line(int fd)
 	int			bytes_read;
 	char		*str;
 
+	bytes_read = 1;
 	str = NULL;
 	while (1)
 	{
