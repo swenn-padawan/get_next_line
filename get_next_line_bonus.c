@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: swenn <swenn@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 20:44:42 by swenn             #+#    #+#             */
-/*   Updated: 2024/10/21 11:13:10 by stetrel          ###   ########.fr       */
+/*   Updated: 2024/10/21 11:07:23 by stetrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_strnjoin(char *s1, char *s2, int len)
 {
@@ -18,8 +18,6 @@ char	*ft_strnjoin(char *s1, char *s2, int len)
 	int		index;
 
 	str = malloc(sizeof(char) * ft_strlen(s1) + len + 1);
-	if (!str)
-		return (NULL);
 	index = 0;
 	if (s1)
 	{
@@ -52,29 +50,29 @@ char	*ft_strchr(char *str, char c)
 
 char	*ft_loop(int fd, int bytes_read, char *backslash, char *str)
 {
-	static char	buffer[BUFFER_SIZE] = {0};
+	static char	buffer[1024][BUFFER_SIZE] = {0};
 
 	bytes_read = 1;
 	str = NULL;
 	while (1)
 	{
-		if (!*buffer)
-			bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (!*buffer[fd])
+			bytes_read = read(fd, buffer[fd], BUFFER_SIZE);
 		if (bytes_read <= 0)
 			break ;
-		backslash = ft_strchr(buffer, '\n');
+		backslash = ft_strchr(buffer[fd], '\n');
 		if (!backslash)
 		{
-			str = ft_strnjoin(str, buffer, BUFFER_SIZE);
-			ft_memset(buffer, 0, BUFFER_SIZE);
+			str = ft_strnjoin(str, buffer[fd], BUFFER_SIZE);
+			ft_memset(buffer[fd], 0, BUFFER_SIZE);
 			continue ;
 		}
-		str = ft_strnjoin(str, buffer, backslash - buffer + 1);
-		ft_memmove(buffer, backslash + 1, BUFFER_SIZE);
+		str = ft_strnjoin(str, buffer[fd], backslash - buffer[fd] + 1);
+		ft_memmove(buffer[fd], backslash + 1, BUFFER_SIZE);
 		break ;
 	}
 	if (bytes_read == -1)
-		ft_memset(buffer, 0, BUFFER_SIZE);
+		ft_memset(buffer[fd], 0, BUFFER_SIZE);
 	return (str);
 }
 
